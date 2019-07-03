@@ -56,6 +56,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         queue.addOperation(operations, waitUntilFinished: false)
     }
 
+    func handleDatabaseCleaning(task: BGProcessingTask) {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        let context = PersistentContainer.shared.newBackgroundContext()
+        let predicate = NSPredicate(format: "timestamp < %@", NSData(timeIntervalSinceNow: -24 * 60 * 68))
+        let clearDatabaseOperation = DeleteFeedEntriesOperation(context: context, predicate: predicate)
+        //if out of time, cancel operations in background
+        task.expirationHandler = {
+            queue.cancelAllOperations()
+        }
+        cleanDatabaseOperation.completionBlock = {
+            let success = !cleanDatabaseOperation.isCancelled
+            if success {
+                //update last cleanup date to current time
+                PersistentContainer.shared.lastCleaned = Data[]
+            }
+            task.setTaskCompleted(success: success)
+        }
+        queue.addOperation(cleanDatabaseOperation)
+    }
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
