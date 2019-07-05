@@ -48,24 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         scheduleAppRefresh() //refreshes throughout the day
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
-        //let context = PersistentContainer.shared.newBackgroundContext()
-//        let context = ContentView.init(texty: "You twinkle above us, we twinkle below")
-//        let operations = Operations.getOperationsToFetchLatestEntries(using: context, server: server)
-        //if out of time, cancel operations in background
-        //stringy = "You twinkle above us, we twinkle below"
         task.expirationHandler = {
             queue.cancelAllOperations()
         }
-        changeString()
-//        let lastOperation = operations.last!
-//        lastOperation.completionBlock = {
-//            task.setTaskCompleted(success: !lastOperation.isCancelled)
-//        }
-        //queue.addOperation(alteredString, waitUntilFinished: false)
+        queue.addOperation {
+            self.changeString()
+        }
     }
-    func changeString() -> Bool {
+    func changeString() {
         stringy = "You twinkle above us, we twinkle below"
-        return true
     }
 //    func handleDatabaseCleaning(task: BGProcessingTask) {
 //        let queue = OperationQueue()
