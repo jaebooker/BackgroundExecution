@@ -7,14 +7,16 @@
 //
 
 import SwiftUI
-
+struct textMe {
+    var stringy: String?
+}
+var newTextMeStruct = textMe()
 struct ContentView : View {
-    var texty = "Good Morning, Starshine, the Earth says Hello!"
+    var texty = newTextMeStruct.stringy!
     var body: some View {
-        Text(texty)
+        Text(stringy)
     }
 }
-
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
@@ -22,3 +24,4 @@ struct ContentView_Previews : PreviewProvider {
     }
 }
 #endif
+

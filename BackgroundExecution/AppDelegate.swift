@@ -8,6 +8,9 @@
 
 import UIKit
 import BackgroundTasks
+
+var stringy = "this string"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //private let server: Server = MockServer()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        stringy = "Good Morning, Starshine, the Earth says Hello"
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jaeson.background", using: nil) { (task) in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
@@ -46,19 +49,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
         //let context = PersistentContainer.shared.newBackgroundContext()
-        let context = ContentView.init(texty: "You twinkle above us, we twinkle below")
+//        let context = ContentView.init(texty: "You twinkle above us, we twinkle below")
 //        let operations = Operations.getOperationsToFetchLatestEntries(using: context, server: server)
         //if out of time, cancel operations in background
+        //stringy = "You twinkle above us, we twinkle below"
         task.expirationHandler = {
             queue.cancelAllOperations()
         }
-        let lastOperation = operations.last!
-        lastOperation.completionBlock = {
-            task.setTaskCompleted(success: !lastOperation.isCancelled)
-        }
-        queue.addOperation(operations, waitUntilFinished: false)
+        changeString()
+//        let lastOperation = operations.last!
+//        lastOperation.completionBlock = {
+//            task.setTaskCompleted(success: !lastOperation.isCancelled)
+//        }
+        //queue.addOperation(alteredString, waitUntilFinished: false)
     }
-
+    func changeString() -> Bool {
+        stringy = "You twinkle above us, we twinkle below"
+        return true
+    }
 //    func handleDatabaseCleaning(task: BGProcessingTask) {
 //        let queue = OperationQueue()
 //        queue.maxConcurrentOperationCount = 1
