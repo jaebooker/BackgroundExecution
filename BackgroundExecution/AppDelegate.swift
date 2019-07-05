@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jaeson.background", using: nil) { (task) in
-            self.handleAppRefresh(task: task as! NSAppRefreshTask)
+            self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
 //        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jaeson.backgroundtwo", using: nil) { (task) in
 //            self.handleDatabaseCleaning(task: task as! BGProcessingTask) //downcast
