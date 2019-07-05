@@ -12,9 +12,11 @@ import BackgroundTasks
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-
+    var window: UIWindow?
+    //private let server: Server = MockServer()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jaeson.background", using: nil) { (task) in
             self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
@@ -43,8 +45,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         scheduleAppRefresh() //refreshes throughout the day
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
-        let context = PersistentContainer.shared.newBackgroundContext()
-        let operations = Operations.getOperationsToFetchLatestEntries(using: context, server: server)
+        //let context = PersistentContainer.shared.newBackgroundContext()
+        let context = ContentView.init(texty: "You twinkle above us, we twinkle below")
+//        let operations = Operations.getOperationsToFetchLatestEntries(using: context, server: server)
         //if out of time, cancel operations in background
         task.expirationHandler = {
             queue.cancelAllOperations()
